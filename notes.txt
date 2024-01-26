@@ -11,5 +11,6 @@ Define URLs in your app's urls.py (you might need to create this file if it does
 2.3 Templates
 Create templates in the templates directory within your manga app. These HTML files will be rendered by your views and presented to the user, displaying manga details, lists, and forms.
 
-
+to run the server
+    python manage.py runserver
 

@@ -1,0 +1,6 @@
+{% for manga in results.data %}
+    <div>
+        <h2>{{ manga.attributes.title.en|default:"No Title Available" }}</h2>
+        <!-- Add more manga details here -->
+    </div>
+{% endfor %}

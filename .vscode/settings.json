@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "mangadex"
+    ],
+    "python.analysis.extraPaths": [
+        "./mangalibrary/manga"
     ]
 }
