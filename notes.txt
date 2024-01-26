@@ -1,0 +1,15 @@
+PostgreSQL - pgAdmin4
+
+2.1 Models
+In your manga app, start defining models in models.py that correspond to the data you'll be handling, such as Manga, Chapter, and UserMangaPreferences. Django's ORM will handle the database table creation for these models.
+
+2.2 Views and URLs
+Set up views in views.py to handle web requests. You'll have views for listing mangas, displaying manga details, and user interactions like favoriting a manga.
+
+Define URLs in your app's urls.py (you might need to create this file if it doesn't exist) to map URLs to your views.
+
+2.3 Templates
+Create templates in the templates directory within your manga app. These HTML files will be rendered by your views and presented to the user, displaying manga details, lists, and forms.
+
+
+
