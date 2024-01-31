@@ -24,7 +24,7 @@ class MangaDexAPI:
         """Fetch and return all available tags from MangaDex."""
         response = requests.get(f"{self.BASE_URL}/manga/tag")
         if response.status_code == 200:
-            return response.json()["data"]
+            return response.json()
         else:
             response.raise_for_status()
 
@@ -40,30 +40,41 @@ class MangaDexAPI:
         # Fetch all tags to map names to IDs
         all_tags = self.fetch_tags()
         included_tag_ids = [
-            tag["id"] for tag in all_tags if tag["attributes"]["name"]["en"] in included_tag_names
-        ] if included_tag_names else []
+            tag["id"] 
+            for tag in all_tags['data'] 
+            if tag["attributes"]["name"]["en"] 
+                in included_tag_names
+        ]
 
         excluded_tag_ids = [
-            tag["id"] for tag in all_tags if tag["attributes"]["name"]["en"] in excluded_tag_names
-        ] if excluded_tag_names else []
+            tag["id"] 
+            for tag in all_tags['data'] 
+            if tag["attributes"]["name"]["en"] 
+                in excluded_tag_names
+        ]
 
         # Prepare parameters for the API request
         params = {
             "limit": limit,
             "offset": offset,
             **{f"order[{key}]": value for key, value in (order or {}).items()},
-            **filters,  # This should correctly include publicationDemographic[], status[], and contentRating[] as arrays
-            
+            **filters,  # Other filters
         }
-        
+
+        # Add 'includes[]', 'includedTags[]', and 'excludedTags[]' as separate parameters
+        params['includes[]'] = 'cover_art'
+        params['includedTags[]'] = included_tag_ids if included_tag_ids else None
+        params['excludedTags[]'] = excluded_tag_ids if excluded_tag_ids else None
 
         # Make the request
         try:
             response = requests.get(f"{self.BASE_URL}/manga", params=params)
             response.raise_for_status()  # Checks for HTTP errors
             data = response.json()
+            
+            print(response.url)  # Debugging: Print the URL to see how it's constructed
             return data
-
+        
         except requests.HTTPError as e:
             print(f"HTTPError: {e.response.status_code} - {e.response.text}")
             # Decide how to handle the error. Raising it will stop execution unless caught elsewhere.
@@ -76,4 +87,5 @@ class MangaDexAPI:
             # Generic catch-all for other errors
             print(f"An unexpected error occurred: {e}")
             raise
+        
         

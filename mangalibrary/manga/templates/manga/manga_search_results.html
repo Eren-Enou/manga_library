@@ -1,6 +1,43 @@
-{% for manga in results.data %}
-    <div>
-        <h2>{{ manga.attributes.title.en|default:"No Title Available" }}</h2>
-        <!-- Add more manga details here -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manga Search Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/manga/styles.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <div class="container mt-3">
+        <div class="row">
+            {% for manga in results.data %}
+                <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ manga.attributes.title.en|default:"No Title Available" }}</h5>
+                            {% if manga.attributes.links.al %}
+                                <a href="https://anilist.co/manga/{{ manga.attributes.links.al }}" class="card-link">Visit AniList Page</a>
+                            {% else %}
+                                <p>No AniList Link Available</p>
+                            {% endif %}
+                            <a href="https://mangadex.org/title/{{ manga.id }}?order=asc" class="card-link">Read Here</a>
+                        </div>
+                        {% if manga.cover_art_id %}
+                            <img src="https://uploads.mangadex.org/covers/{{ manga.id }}/{{ manga.cover_art_id }}.256.jpg" class="card-img-bottom" alt="Cover Art">
+                        {% else %}
+                            <p class="text-center">No cover art available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
+    
+
+
+</body>
+</html>

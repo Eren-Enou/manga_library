@@ -5,7 +5,7 @@ from manga.mangadex.requests import MangaDexAPI
 def home_view(request):
     return render(request, 'manga/home.html')
 
-def search_manga_view(request):
+def manga_search_view(request):
     if request.method == 'POST':
         form = MangaSearchForm(request.POST)
         if form.is_valid():
@@ -39,7 +39,31 @@ def search_manga_view(request):
                 order=order,
                 **filters
             )
-            return render(request, 'manga/manga_search_results.html', {'results': results})
+            
+            mangas_with_cover_art = []
+            for manga in results['data']:
+                # Skip if manga is not a dictionary
+                if not isinstance(manga, dict):
+                    continue
+
+                cover_art_id = None
+                for relationship in manga.get('relationships', []):
+                    if isinstance(relationship, dict) and relationship.get('type') == 'cover_art':
+                        cover_art_id = relationship.get('attributes').get('fileName')
+                        break
+                # Ensure manga can be modified (it should be a dict)
+                if isinstance(manga, dict):
+                    manga['cover_art_id'] = cover_art_id
+                    mangas_with_cover_art.append(manga)
+                
+            context = {'mangas': mangas_with_cover_art}
+            
+            
+            return render(request, 'manga/manga_search_results.html', {'results': results, 'context':context})
     else:
         form = MangaSearchForm()
+    return render(request, 'manga/manga_search_form.html', {'form': form})
+
+def manga_search_form(request):
+    form = MangaSearchForm()
     return render(request, 'manga/manga_search_form.html', {'form': form})

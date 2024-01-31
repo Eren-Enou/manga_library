@@ -17,11 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from manga.views.views import home_view, search_manga_view
+from manga.views.views import home_view, manga_search_view
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
-    path('search/', search_manga_view, name='search_manga'),
+    path('search/', manga_search_view, name='manga_search'),
 ]

@@ -1,0 +1,43 @@
+.card-title {
+    /* height: 4em; Adjust based on your needs */
+    overflow: hidden;
+    text-align: center; /* Center the text horizontally */
+    color: #FFA6C9; /* Cotton candy pink */
+    font-family: 'Noto Sans JP', sans-serif; /* Use the imported font */
+    display: flex;
+    align-items: center; /* Center the text vertically */
+    justify-content: center;
+    margin: 0; /* Remove default margins if necessary */
+}
+
+.card-link {
+    color: #AEC6CF; /* Cotton candy blue */
+    font-family: 'Noto Sans JP', sans-serif; /* Use the specified font */
+    text-align: center; /* Center the text horizontally */
+    display: block; /* Make the link take up the full width to center properly */
+    margin: 10px 0; /* Add some space above and below the link */
+    text-decoration: none; /* Optional: removes the underline from links */
+}
+
+.card-link:hover {
+    text-decoration: underline; /* Reintroduce underline on hover for visual feedback */
+    color: #92a9b9; /* Optionally darken the color on hover */
+}
+
+.card-body {
+    height: 10em; /* Adjust based on your needs */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-img-bottom {
+    max-height: 200px; /* Adjust based on your needs */
+    object-fit: cover; /* This makes the image cover the area without changing its aspect ratio */
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}

@@ -1,5 +1,63 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Search</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Additional styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">  <!-- Adjust based on your static files setup -->
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Search for Manga</h1>
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.included_tag_names.label_tag }}
+            {{ form.included_tag_names }}
+        </div>
+        <div class="form-group">
+            {{ form.excluded_tag_names.label_tag }}
+            {{ form.excluded_tag_names }}
+        </div>
+        <div class="form-group">
+            {{ form.order_rating.label_tag }}
+            {{ form.order_rating }}
+        </div>
+        <div class="form-group">
+            {{ form.order_followedCount.label_tag }}
+            {{ form.order_followedCount }}
+        </div>
+        <div class="form-group">
+            {{ form.publication_demographic.label_tag }}
+            {{ form.publication_demographic }}
+        </div>
+        <div class="form-group">
+            {{ form.status.label_tag }}
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            {{ form.content_rating.label_tag }}
+            {{ form.content_rating }}
+        </div>
+        <div class="form-group">
+            {{ form.limit.label_tag }}
+            {{ form.limit }}
+        </div>
+        
+
+        
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>  <!-- Adjust 'home' to your actual home view name -->
+    </form>
+</div>
+
+<!-- Optional: Include Bootstrap JS for interactive components -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
