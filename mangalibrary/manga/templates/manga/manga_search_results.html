@@ -25,6 +25,7 @@
                                 <p>No AniList Link Available</p>
                             {% endif %}
                             <a href="https://mangadex.org/title/{{ manga.id }}?order=asc" class="card-link">Read Here</a>
+                            <a href="{% url 'start_reading' manga_id=manga.id %}">Start Reading</a>
                         </div>
                         {% if manga.cover_art_id %}
                             <img src="https://uploads.mangadex.org/covers/{{ manga.id }}/{{ manga.cover_art_id }}.256.jpg" class="card-img-bottom" alt="Cover Art">

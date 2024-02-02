@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manga Reader</title>
+    <link rel="stylesheet" href="{% static 'css/manga/styles.css' %}">
+    <style>
+        .manga-page {
+            width: 100%;
+            max-width: 800px; /* Adjust as needed */
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Reading Manga</h1>
+        <div class="manga-pages">
+            {% for url in page_urls %}
+                <img src="{{ url }}" alt="Manga Page" class="manga-page">
+            {% endfor %}
+        </div>
+        <a href="{% url 'home' %}">Return to Home</a> <!-- Make sure 'home' matches your home view's name -->
+    </div>
+</body>
+</html>

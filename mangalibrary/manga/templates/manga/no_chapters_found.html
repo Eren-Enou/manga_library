@@ -1,0 +1,16 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>No Chapters Found</title>
+    <link rel="stylesheet" href="{% static 'css/manga/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>No Chapters Found</h1>
+        <p>Sorry, but no chapters are available for this manga at the moment.</p>
+        <a href="{% url 'home' %}">Return to Home</a> <!-- Make sure 'home' matches your home view's name -->
+    </div>
+</body>
+</html>

@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.core.paginator import Paginator
+
 from manga.forms.forms import MangaSearchForm
 from manga.mangadex.requests import MangaDexAPI
 
@@ -10,12 +12,14 @@ def manga_search_view(request):
         form = MangaSearchForm(request.POST)
         if form.is_valid():
             manga_dex_api = MangaDexAPI()
+            title_query = form.cleaned_data.get('title_query')
             included_tags = form.cleaned_data.get('included_tag_names').split(',')
             excluded_tags = form.cleaned_data.get('excluded_tag_names').split(',')
-            order = {
-                "rating": form.cleaned_data.get('order_rating'),
-                "followedCount": form.cleaned_data.get('order_followedCount'),
-            }
+            # print(included_tags)
+            # print(excluded_tags)
+            # This assumes that 'sort_by' is the name of your field in the form
+            # and the value is a string like 'title_descending'
+            sort_by = form.cleaned_data.get('sort_by')
             
             publication_demographic = form.cleaned_data.get('publication_demographic', [])
             status = form.cleaned_data.get('status', [])
@@ -33,10 +37,11 @@ def manga_search_view(request):
                 filters["contentRating[]"] = content_rating
                 
             results = manga_dex_api.search_manga(
+                title=title_query,
                 limit=limit,
                 included_tag_names=included_tags,
                 excluded_tag_names=excluded_tags,
-                order=order,
+                sort_by=sort_by,
                 **filters
             )
             
@@ -58,6 +63,7 @@ def manga_search_view(request):
                 
             context = {'mangas': mangas_with_cover_art}
             
+            # chapters = manga_dex_api.start_reading()
             
             return render(request, 'manga/manga_search_results.html', {'results': results, 'context':context})
     else:
@@ -67,3 +73,14 @@ def manga_search_view(request):
 def manga_search_form(request):
     form = MangaSearchForm()
     return render(request, 'manga/manga_search_form.html', {'form': form})
+
+def start_reading_view(request, manga_id):
+    manga_dex_api = MangaDexAPI()
+    page_urls = manga_dex_api.start_reading(manga_id)
+    
+    if not page_urls:
+        # Handle the case where no chapters/pages are found
+        return render(request, 'manga/no_chapters_found.html')
+    
+    # Render a template showing the manga's pages or redirect to a dedicated reader view
+    return render(request, 'manga/manga_reader.html', {'page_urls': page_urls})
